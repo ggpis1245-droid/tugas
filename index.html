@@ -1,0 +1,640 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="theme-color" content="#dc2626">
+  <meta name="description" content="E-Menu Interaktif Seblak Warmen - Spesialis Seblak Prasmanan & Jajanan Pedas Favorit Anak Sekolah. Pesan langsung lewat HP!">
+  <title>Seblak Warmen 🌶️ | E-Menu Interaktif & Pesan Online</title>
+
+  <!-- Google Fonts: Plus Jakarta Sans & Outfit -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <div id="app" class="app-container">
+
+    <!-- Top Navigation / Header -->
+    <header class="app-header">
+      <div class="header-inner">
+        <div class="brand-info">
+          <div class="brand-logo-wrap">
+            <span class="brand-emoji">🌶️</span>
+            <div class="pulse-ring"></div>
+          </div>
+          <div>
+            <h1 class="brand-title">SEBLAK WARMEN</h1>
+            <p class="brand-tagline">Pedas Gurih Bikin Nagih • Favorit Anak Sekolah</p>
+          </div>
+        </div>
+        <div class="store-badge">
+          <span class="status-dot"></span>
+          <span>Buka Sekarang</span>
+        </div>
+      </div>
+    </header>
+
+    <!-- Hero / Promo Banner -->
+    <section class="hero-banner">
+      <div class="hero-content">
+        <span class="hero-chip">🔥 Promo Teman Seblak</span>
+        <h2 class="hero-title">Atur Level Pedasmu & Racik Topping Favorit!</h2>
+        <p class="hero-desc">Pilih menu, tentukan level 1-5, dan pesan instan via WhatsApp tanpa antre lama di kasir.</p>
+        <div class="hero-stats">
+          <div class="stat-pill">
+            <span class="stat-icon">🌶️</span>
+            <span>Level 1 - 5</span>
+          </div>
+          <div class="stat-pill">
+            <span class="stat-icon">🥟</span>
+            <span>Topping Komplit</span>
+          </div>
+          <div class="stat-pill">
+            <span class="stat-icon">⚡</span>
+            <span>Pesan Cepat</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Search & Filter Bar -->
+    <section class="search-section">
+      <div class="search-input-wrapper">
+        <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="11" cy="11" r="8"></circle>
+          <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+        </svg>
+        <input 
+          type="text" 
+          id="menuSearchInput" 
+          class="search-input" 
+          placeholder="Cari seblak, risol mayo, es teh..." 
+          autocomplete="off"
+        >
+        <button id="clearSearchBtn" class="clear-search-btn" aria-label="Hapus pencarian" style="display: none;">✕</button>
+      </div>
+    </section>
+
+    <!-- Category Tabs (Sticky) -->
+    <nav class="category-nav-wrapper" id="categoryNav">
+      <div class="category-tabs" role="tablist">
+        <button 
+          class="cat-tab active" 
+          data-category="seblak" 
+          role="tab" 
+          aria-selected="true"
+          id="tab-seblak"
+        >
+          <span class="cat-icon">🍲</span>
+          <span class="cat-name">Seblak</span>
+          <span class="cat-count" id="count-seblak">3</span>
+        </button>
+        <button 
+          class="cat-tab" 
+          data-category="jajanan" 
+          role="tab" 
+          aria-selected="false"
+          id="tab-jajanan"
+        >
+          <span class="cat-icon">🥟</span>
+          <span class="cat-name">Jajanan</span>
+          <span class="cat-count" id="count-jajanan">2</span>
+        </button>
+        <button 
+          class="cat-tab" 
+          data-category="minuman" 
+          role="tab" 
+          aria-selected="false"
+          id="tab-minuman"
+        >
+          <span class="cat-icon">🧃</span>
+          <span class="cat-name">Minuman</span>
+          <span class="cat-count" id="count-minuman">2</span>
+        </button>
+      </div>
+    </nav>
+
+    <!-- Main Content: Menu Items Section -->
+    <main class="main-content">
+      <div class="category-heading-row">
+        <div>
+          <h2 class="category-title" id="currentCategoryTitle">Menu Seblak</h2>
+          <p class="category-subtitle" id="currentCategoryDesc">Bisa atur level pedas 1-5 & pilih topping tambahan favoritmu!</p>
+        </div>
+      </div>
+
+      <!-- Grid of Menu Cards -->
+      <div class="menu-grid" id="menuGrid">
+        <!-- Rendered dynamically by JavaScript -->
+      </div>
+
+      <!-- Empty state when search not found -->
+      <div class="empty-state" id="emptyState" style="display: none;">
+        <span class="empty-icon">🍜</span>
+        <h3>Menu Tidak Ditemukan</h3>
+        <p>Coba kata kunci lain atau pilih kategori di atas ya!</p>
+        <button class="btn-reset-filter" id="resetFilterBtn">Lihat Semua Menu</button>
+      </div>
+    </main>
+
+    <!-- Floating Cart Bar (Melayang di Bawah Layar) -->
+    <aside class="floating-cart-bar" id="floatingCartBar" style="display: none;">
+      <div class="floating-cart-content" id="openCartBtn">
+        <div class="cart-left-info">
+          <div class="cart-icon-wrapper">
+            <svg class="cart-svg-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path>
+              <line x1="3" y1="6" x2="21" y2="6"></line>
+              <path d="M16 10a4 4 0 0 1-8 0"></path>
+            </svg>
+            <span class="cart-badge-count" id="floatingCartCount">0</span>
+          </div>
+          <div class="cart-price-column">
+            <span class="cart-label-qty" id="floatingCartSummary">0 item di keranjang</span>
+            <span class="cart-total-price" id="floatingCartTotal">Rp 0</span>
+          </div>
+        </div>
+        <button class="btn-view-cart" type="button" aria-label="Buka Keranjang Pesanan">
+          <span>Lihat Pesanan</span>
+          <svg class="arrow-right-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+            <polyline points="9 18 15 12 9 6"></polyline>
+          </svg>
+        </button>
+      </div>
+    </aside>
+
+    <!-- Modal 1: Customization Modal for Seblak (Level Pedas + Topping) -->
+    <div class="modal-backdrop" id="customModalBackdrop" style="display: none;">
+      <div class="bottom-sheet" id="customBottomSheet">
+        <!-- Sheet Handle for Mobile Drag UX -->
+        <div class="sheet-handle-bar">
+          <span class="sheet-pill"></span>
+        </div>
+
+        <div class="sheet-header">
+          <div>
+            <span class="sheet-badge">Kustomisasi Menu</span>
+            <h3 class="sheet-title" id="customItemName">Seblak Komplit Warmen</h3>
+          </div>
+          <button class="close-sheet-btn" id="closeCustomModalBtn" aria-label="Tutup kustomisasi">✕</button>
+        </div>
+
+        <div class="sheet-body">
+          <!-- Item Thumbnail and Base Price -->
+          <div class="custom-item-summary">
+            <img id="customItemImg" src="" alt="Menu Seblak" class="custom-thumb">
+            <div class="custom-summary-text">
+              <p class="custom-item-desc" id="customItemDesc">Deskripsi seblak</p>
+              <span class="custom-base-price" id="customItemBasePrice">Rp 18.000</span>
+            </div>
+          </div>
+
+          <!-- Section: Level Pedas (1-5) -->
+          <div class="custom-section">
+            <div class="section-title-wrap">
+              <span class="section-step">1</span>
+              <div>
+                <h4 class="section-title">Pilih Level Pedas (Wajib)</h4>
+                <p class="section-desc">Sesuaikan dengan ketahanan lidahmu!</p>
+              </div>
+            </div>
+
+            <div class="spicy-level-grid" id="spicyLevelOptions">
+              <label class="spicy-card" data-level="1">
+                <input type="radio" name="spicyLevel" value="1" checked>
+                <div class="spicy-card-content">
+                  <div class="spicy-header">
+                    <span class="level-tag">Level 1</span>
+                    <span class="spicy-emojis">🌶️</span>
+                  </div>
+                  <span class="spicy-name">Santai</span>
+                  <span class="spicy-sub">Pedas manis bersahabat</span>
+                </div>
+              </label>
+
+              <label class="spicy-card" data-level="2">
+                <input type="radio" name="spicyLevel" value="2">
+                <div class="spicy-card-content">
+                  <div class="spicy-header">
+                    <span class="level-tag">Level 2</span>
+                    <span class="spicy-emojis">🌶️🌶️</span>
+                  </div>
+                  <span class="spicy-name">Sedang</span>
+                  <span class="spicy-sub">Mulai terasa hangat</span>
+                </div>
+              </label>
+
+              <label class="spicy-card popular" data-level="3">
+                <span class="badge-recom">🔥 Terlaris</span>
+                <input type="radio" name="spicyLevel" value="3">
+                <div class="spicy-card-content">
+                  <div class="spicy-header">
+                    <span class="level-tag">Level 3</span>
+                    <span class="spicy-emojis">🌶️🌶️🌶️</span>
+                  </div>
+                  <span class="spicy-name">Nendang</span>
+                  <span class="spicy-sub">Pedas nikmat khas Warmen</span>
+                </div>
+              </label>
+
+              <label class="spicy-card" data-level="4">
+                <input type="radio" name="spicyLevel" value="4">
+                <div class="spicy-card-content">
+                  <div class="spicy-header">
+                    <span class="level-tag">Level 4</span>
+                    <span class="spicy-emojis">🌶️🌶️🌶️🌶️</span>
+                  </div>
+                  <span class="spicy-name">Huwah!</span>
+                  <span class="spicy-sub">Keringat mulai bercucuran</span>
+                </div>
+              </label>
+
+              <label class="spicy-card extreme" data-level="5">
+                <span class="badge-extreme">⚡ Ekstrem</span>
+                <input type="radio" name="spicyLevel" value="5">
+                <div class="spicy-card-content">
+                  <div class="spicy-header">
+                    <span class="level-tag">Level 5</span>
+                    <span class="spicy-emojis">🌶️🌶️🌶️🌶️🌶️</span>
+                  </div>
+                  <span class="spicy-name">Meledak</span>
+                  <span class="spicy-sub">Tantangan anak tongkrongan!</span>
+                </div>
+              </label>
+            </div>
+          </div>
+
+          <!-- Section: Topping Tambahan (Checkbox) -->
+          <div class="custom-section">
+            <div class="section-title-wrap">
+              <span class="section-step">2</span>
+              <div>
+                <h4 class="section-title">Topping Tambahan (Opsional)</h4>
+                <p class="section-desc">Bisa pilih lebih dari satu topping favorit</p>
+              </div>
+            </div>
+
+            <div class="topping-list">
+              <label class="topping-item">
+                <div class="topping-left">
+                  <input type="checkbox" name="seblakTopping" value="Sosis" data-price="3000" class="topping-checkbox">
+                  <div class="topping-info">
+                    <span class="topping-name">🌭 Sosis Sapi</span>
+                    <span class="topping-detail">Potongan sosis sapi gurih</span>
+                  </div>
+                </div>
+                <span class="topping-price">+Rp 3.000</span>
+              </label>
+
+              <label class="topping-item">
+                <div class="topping-left">
+                  <input type="checkbox" name="seblakTopping" value="Dumpling" data-price="4000" class="topping-checkbox">
+                  <div class="topping-info">
+                    <span class="topping-name">🥟 Dumpling Keju</span>
+                    <span class="topping-detail">Dumpling lumer dan kenyal</span>
+                  </div>
+                </div>
+                <span class="topping-price">+Rp 4.000</span>
+              </label>
+
+              <label class="topping-item">
+                <div class="topping-left">
+                  <input type="checkbox" name="seblakTopping" value="Telur Puyuh" data-price="3000" class="topping-checkbox">
+                  <div class="topping-info">
+                    <span class="topping-name">🥚 Telur Puyuh (3 butir)</span>
+                    <span class="topping-detail">Telur puyuh rebus gurih</span>
+                  </div>
+                </div>
+                <span class="topping-price">+Rp 3.000</span>
+              </label>
+            </div>
+          </div>
+
+          <!-- Section: Catatan Khusus Porsi -->
+          <div class="custom-section">
+            <div class="section-title-wrap">
+              <span class="section-step">3</span>
+              <div>
+                <h4 class="section-title">Catatan Tambahan (Opsional)</h4>
+                <p class="section-desc">Contoh: kuah banjir, jangan pakai seledri, dll.</p>
+              </div>
+            </div>
+            <textarea 
+              id="customItemNotes" 
+              class="custom-notes-input" 
+              placeholder="Tulis catatan khusus untuk menu ini..." 
+              rows="2"
+              maxlength="120"
+            ></textarea>
+          </div>
+
+          <!-- Section: Quantity -->
+          <div class="custom-qty-row">
+            <span class="qty-label">Jumlah Porsi</span>
+            <div class="qty-stepper">
+              <button type="button" class="stepper-btn" id="customQtyMinus" aria-label="Kurangi porsi">−</button>
+              <span class="stepper-val" id="customQtyDisplay">1</span>
+              <button type="button" class="stepper-btn" id="customQtyPlus" aria-label="Tambah porsi">+</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Sticky Footer Customizer -->
+        <div class="sheet-footer">
+          <div class="sheet-footer-price">
+            <span class="footer-calc-label">Total Harga</span>
+            <span class="footer-calc-price" id="customModalTotalPrice">Rp 18.000</span>
+          </div>
+          <button class="btn-primary-action" id="addCustomizedToCartBtn">
+            <span>+ Masukkan Keranjang</span>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Modal 2: Cart Drawer & Checkout Form -->
+    <div class="modal-backdrop" id="cartDrawerBackdrop" style="display: none;">
+      <div class="bottom-sheet cart-drawer-sheet" id="cartDrawerSheet">
+        <!-- Sheet Handle -->
+        <div class="sheet-handle-bar">
+          <span class="sheet-pill"></span>
+        </div>
+
+        <div class="sheet-header cart-header-with-action">
+          <div>
+            <h3 class="sheet-title">Keranjang Pesanan 🛒</h3>
+            <span class="sheet-subtitle" id="cartHeaderCount">0 item dipilih</span>
+          </div>
+          <div class="cart-header-btns">
+            <button class="btn-clear-cart" id="clearCartBtn" title="Kosongkan keranjang">Kosongkan</button>
+            <button class="close-sheet-btn" id="closeCartDrawerBtn" aria-label="Tutup keranjang">✕</button>
+          </div>
+        </div>
+
+        <div class="sheet-body cart-sheet-body">
+          <!-- Items List in Cart -->
+          <div class="cart-items-wrapper">
+            <h4 class="cart-section-title">Rincian Menu</h4>
+            <div class="cart-items-list" id="cartItemsList">
+              <!-- Rendered dynamically -->
+            </div>
+          </div>
+
+          <!-- Price Calculation Summary -->
+          <div class="order-summary-box">
+            <div class="summary-line">
+              <span>Subtotal Menu</span>
+              <span id="summarySubtotal">Rp 0</span>
+            </div>
+            <div class="summary-line highlight">
+              <span>Total Pembayaran</span>
+              <span id="summaryGrandTotal" class="grand-total-amount">Rp 0</span>
+            </div>
+          </div>
+
+          <!-- Form Checkout (Wajib) -->
+          <section class="checkout-form-section">
+            <h4 class="cart-section-title">Data Pemesan & Meja</h4>
+            <form id="checkoutForm" novalidate onsubmit="return false;">
+
+              <!-- Input Nomor Meja (Wajib) -->
+              <div class="form-group">
+                <label for="tableNumberInput" class="form-label">
+                  <span>Nomor Meja</span>
+                  <span class="badge-required">*Wajib Diisi</span>
+                </label>
+                <div class="input-with-icon">
+                  <span class="input-icon">📍</span>
+                  <input 
+                    type="text" 
+                    id="tableNumberInput" 
+                    name="tableNumber" 
+                    class="form-control" 
+                    placeholder="Contoh: Meja 05 atau Meja Kasir" 
+                    required
+                  >
+                </div>
+                <div class="quick-table-chips">
+                  <span class="quick-chip-label">Pilih Cepat:</span>
+                  <button type="button" class="table-chip" data-val="Meja 1">Meja 1</button>
+                  <button type="button" class="table-chip" data-val="Meja 2">Meja 2</button>
+                  <button type="button" class="table-chip" data-val="Meja 3">Meja 3</button>
+                  <button type="button" class="table-chip" data-val="Meja 4">Meja 4</button>
+                  <button type="button" class="table-chip" data-val="Meja 5">Meja 5</button>
+                  <button type="button" class="table-chip" data-val="Area Lesehan">Lesehan</button>
+                </div>
+                <span class="form-error-msg" id="tableNumberError" style="display: none;">
+                  ⚠️ Mohon isi nomor meja sebelum memesan ya!
+                </span>
+              </div>
+
+              <!-- Input Nama Pemesan -->
+              <div class="form-group">
+                <label for="customerNameInput" class="form-label">
+                  <span>Nama Pemesan</span>
+                  <span class="badge-optional">Opsional</span>
+                </label>
+                <div class="input-with-icon">
+                  <span class="input-icon">👤</span>
+                  <input 
+                    type="text" 
+                    id="customerNameInput" 
+                    name="customerName" 
+                    class="form-control" 
+                    placeholder="Nama panggilan kamu"
+                  >
+                </div>
+              </div>
+
+              <!-- Dropdown Tipe Pesanan: Makan Sini atau Bungkus -->
+              <div class="form-group">
+                <label for="orderTypeSelect" class="form-label">
+                  <span>Tipe Pesanan</span>
+                  <span class="badge-required">*Wajib</span>
+                </label>
+                <div class="select-wrapper">
+                  <span class="input-icon">🏷️</span>
+                  <select id="orderTypeSelect" name="orderType" class="form-control select-control" required>
+                    <option value="Makan Sini" selected>🍽️ Makan Sini (Dine In)</option>
+                    <option value="Bungkus">🥡 Bungkus (Take Away)</option>
+                  </select>
+                </div>
+              </div>
+
+              <!-- Dropdown Metode Pembayaran: Cash atau QRIS -->
+              <div class="form-group">
+                <label for="paymentMethodSelect" class="form-label">
+                  <span>Metode Pembayaran</span>
+                  <span class="badge-required">*Wajib</span>
+                </label>
+                <div class="select-wrapper">
+                  <span class="input-icon">💳</span>
+                  <select id="paymentMethodSelect" name="paymentMethod" class="form-control select-control" required>
+                    <option value="QRIS" selected>📲 QRIS (Scan Barcode Instan)</option>
+                    <option value="Cash">💵 Cash (Bayar Tunai di Kasir)</option>
+                  </select>
+                </div>
+              </div>
+
+              <!-- Alert Instruksi Pembayaran Dinamis -->
+              <div class="payment-instruction-box" id="paymentInstructionBox">
+                <div class="inst-icon" id="paymentInstIcon">📲</div>
+                <div class="inst-text">
+                  <h5 id="paymentInstTitle">Instruksi Pembayaran QRIS</h5>
+                  <p id="paymentInstDesc">Tolong kirimkan bukti QRIS setelah menyelesaikan pesanan ya kak.</p>
+                </div>
+                <button type="button" class="btn-preview-qris" id="showQrisMockupBtn">
+                  Lihat QRIS
+                </button>
+              </div>
+
+              <!-- Catatan Tambahan Pemesan -->
+              <div class="form-group">
+                <label for="generalOrderNotes" class="form-label">
+                  <span>Catatan Khusus Pesanan</span>
+                  <span class="badge-optional">Opsional</span>
+                </label>
+                <textarea 
+                  id="generalOrderNotes" 
+                  class="form-control textarea-control" 
+                  rows="2" 
+                  placeholder="Contoh: Es teh manisnya dipisah, kuah seblak banyakin..."
+                ></textarea>
+              </div>
+            </form>
+          </section>
+        </div>
+
+        <!-- Sticky Footer Cart -->
+        <div class="sheet-footer cart-footer-fixed">
+          <div class="cart-footer-buttons">
+            <button class="btn-checkout-whatsapp" id="submitOrderBtn" type="button">
+              <svg class="wa-icon" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.885-9.888 9.885m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.05 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.82 11.82 0 00-3.48-8.413z"/>
+              </svg>
+              <span>Pesan Sekarang via WhatsApp</span>
+            </button>
+            <button class="btn-copy-order" id="copyOrderTextBtn" type="button" title="Salin format pesanan untuk dikirim manual">
+              📋 Salin Format Pesanan
+            </button>
+          </div>
+          <p class="order-notice-text">
+            Otomatis terhubung ke nomor WhatsApp Seblak Warmen dengan format pesanan rapi.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Modal 3: QRIS Preview Mockup -->
+    <div class="modal-backdrop" id="qrisModalBackdrop" style="display: none;">
+      <div class="qris-card-dialog">
+        <div class="qris-card-header">
+          <div class="qris-brand">
+            <span class="qris-logo-badge">QRIS</span>
+            <span>Pembayaran Digital Seblak Warmen</span>
+          </div>
+          <button class="close-sheet-btn" id="closeQrisModalBtn" aria-label="Tutup QRIS">✕</button>
+        </div>
+        <div class="qris-card-body">
+          <p class="qris-hint">Scan QRIS menggunakan GoPay, OVO, Dana, ShopeePay, atau Mobile Banking:</p>
+          <div class="qris-barcode-frame">
+            <!-- Simulated High-Res QRIS Code with Merchant Tag -->
+            <svg class="qris-svg" viewBox="0 0 200 200" width="180" height="180">
+              <rect width="200" height="200" fill="#ffffff" rx="10"/>
+              <!-- Corner Finder Patterns -->
+              <rect x="20" y="20" width="45" height="45" fill="#111827" rx="6"/>
+              <rect x="28" y="28" width="29" height="29" fill="#ffffff" rx="3"/>
+              <rect x="34" y="34" width="17" height="17" fill="#dc2626" rx="2"/>
+
+              <rect x="135" y="20" width="45" height="45" fill="#111827" rx="6"/>
+              <rect x="143" y="28" width="29" height="29" fill="#ffffff" rx="3"/>
+              <rect x="149" y="34" width="17" height="17" fill="#dc2626" rx="2"/>
+
+              <rect x="20" y="135" width="45" height="45" fill="#111827" rx="6"/>
+              <rect x="28" y="143" width="29" height="29" fill="#ffffff" rx="3"/>
+              <rect x="34" y="149" width="17" height="17" fill="#dc2626" rx="2"/>
+
+              <!-- Simulated QR Matrix Dots -->
+              <circle cx="85" cy="30" r="4" fill="#111827"/>
+              <circle cx="100" cy="30" r="4" fill="#111827"/>
+              <circle cx="115" cy="30" r="4" fill="#111827"/>
+              <circle cx="85" cy="45" r="4" fill="#111827"/>
+              <circle cx="100" cy="45" r="4" fill="#ea580c"/>
+              <circle cx="85" cy="60" r="4" fill="#111827"/>
+              <circle cx="100" cy="60" r="4" fill="#111827"/>
+              <circle cx="115" cy="60" r="4" fill="#111827"/>
+
+              <rect x="20" y="80" width="8" height="8" fill="#111827"/>
+              <rect x="36" y="80" width="8" height="8" fill="#111827"/>
+              <rect x="52" y="80" width="8" height="8" fill="#ea580c"/>
+              <rect x="68" y="80" width="8" height="8" fill="#111827"/>
+              <rect x="84" y="80" width="8" height="8" fill="#111827"/>
+              <rect x="100" y="80" width="8" height="8" fill="#111827"/>
+              <rect x="116" y="80" width="8" height="8" fill="#111827"/>
+              <rect x="132" y="80" width="8" height="8" fill="#ea580c"/>
+              <rect x="148" y="80" width="8" height="8" fill="#111827"/>
+              <rect x="164" y="80" width="8" height="8" fill="#111827"/>
+
+              <!-- Center Centerpiece Badge -->
+              <circle cx="100" cy="100" r="22" fill="#dc2626"/>
+              <text x="100" y="106" font-size="14" font-weight="bold" fill="#ffffff" text-anchor="middle" font-family="'Outfit', sans-serif">WARMEN</text>
+
+              <!-- Lower Matrix Elements -->
+              <rect x="80" y="130" width="8" height="8" fill="#111827"/>
+              <rect x="96" y="130" width="8" height="8" fill="#111827"/>
+              <rect x="112" y="130" width="8" height="8" fill="#ea580c"/>
+              <rect x="128" y="130" width="8" height="8" fill="#111827"/>
+              <rect x="144" y="130" width="8" height="8" fill="#111827"/>
+              <rect x="160" y="130" width="8" height="8" fill="#111827"/>
+              <rect x="80" y="146" width="8" height="8" fill="#111827"/>
+              <rect x="112" y="146" width="8" height="8" fill="#111827"/>
+              <rect x="144" y="146" width="8" height="8" fill="#111827"/>
+              <rect x="160" y="146" width="8" height="8" fill="#ea580c"/>
+
+              <rect x="80" y="165" width="8" height="8" fill="#111827"/>
+              <rect x="96" y="165" width="8" height="8" fill="#ea580c"/>
+              <rect x="112" y="165" width="8" height="8" fill="#111827"/>
+              <rect x="144" y="165" width="8" height="8" fill="#111827"/>
+              <rect x="160" y="165" width="8" height="8" fill="#111827"/>
+            </svg>
+          </div>
+          <div class="qris-merchant-details">
+            <span class="qris-m-name">NMID: ID102488992019</span>
+            <span class="qris-m-sub">A/N SEBLAK WARMEN OFFICIAL</span>
+          </div>
+          <p class="qris-post-note">💡 Jangan lupa tangkap layar (screenshot) bukti pembayaran untuk dikirim via WhatsApp.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Toast Notification -->
+    <div class="toast-notification" id="toastNotification" style="display: none;">
+      <span class="toast-icon" id="toastIcon">🍜</span>
+      <span class="toast-message" id="toastMessage">Menu berhasil ditambahkan!</span>
+    </div>
+
+    <!-- Footer Information -->
+    <footer class="app-footer">
+      <div class="footer-brand">
+        <span class="footer-logo">🌶️ Seblak Warmen</span>
+        <p class="footer-desc">Warung Seblak & Jajanan Kekinian Ramah Kantong Pelajar.</p>
+      </div>
+      <div class="footer-meta">
+        <span>🕒 Buka: Setiap Hari (10.00 - 21.00 WIB)</span>
+        <span>📍 Dekat Lapangan Sekolah & Tongkrongan Santai</span>
+        <span>📞 WhatsApp Bot: +62 812-3456-7890</span>
+      </div>
+      <div class="footer-copyright">
+        © 2026 Seblak Warmen. Dibuat khusus untuk kenyamanan jajan anak sekolah.
+      </div>
+    </footer>
+
+  </div>
+
+  <script src="js/menu-data.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
