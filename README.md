@@ -2,6 +2,8 @@
 
 Aplikasi Web E-Menu interaktif dan modern untuk UMKM **Seblak Warmen**, dirancang dengan konsep *mobile-first*, kekinian, dan ramah untuk anak sekolah/pelajar dengan dominasi warna merah-oranye yang menggugah selera.
 
+🌐 **Live Demo (GitHub Pages)**: [https://ggpis1245-droid.github.io/tugas/](https://ggpis1245-droid.github.io/tugas/)
+
 ---
 
 ## ✨ Fitur Unggulan
